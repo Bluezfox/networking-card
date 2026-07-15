@@ -54,7 +54,7 @@
                 navigator.geolocation.getCurrentPosition(position => {
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
-                    sendDataToServer(null, null, null, latitude, longitude);
+                    sendDataToServer(null, null, null, latitude, longitude, null);
                 }, err => {
                     error.textContent = 'Failed to capture location: ' + err.message;
                 });
@@ -80,7 +80,7 @@
             }
 
             function sendDataToServer(name, email, phoneNumber, latitude, longitude, photo) {
-                fetch('https://script.google.com/macros/s/YOUR_WEB_APP_ID/exec](https://script.google.com/macros/s/YOUR_WEB_APP_ID/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbxqR0InekD2ap6DMtr3dddlx2zdSoVOFvXnESs4-WZceHBvxg5FXwPPRXhtdM-uEWoh/exec', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
