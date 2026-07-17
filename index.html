@@ -1,666 +1,692 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#0E1A2B">
-  <title>Connect with Garrick — The Founders Arena</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0E1A2B" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Connect with Garrick — Founders Arena</title>
+
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
     :root {
-      --ink: #0E1A2B;
-      --ink-soft: #2A3B52;
-      --paper: #F6F4EF;
-      --paper-raised: #FFFFFF;
-      --brass: #B9975B;
-      --brass-deep: #8C6F3E;
-      --line: #DAD4C4;
-      --error: #B3402A;
-      --success: #3E6B4F;
-      --success-bg: #e6f4ea;
-      --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
-      --serif: Georgia, 'Times New Roman', serif;
-      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    }
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
-    body {
-      background: var(--paper);
-      color: var(--ink);
-      font-family: var(--sans);
-      min-height: 100vh;
-      padding-bottom: 48px;
+      --navy:      #0E1A2B;
+      --navy-soft: #162030;
+      --gold:      #C9A84C;
+      --gold-lt:   #F0D080;
+      --white:     #FFFFFF;
+      --gray:      #8899AA;
+      --gray-lt:   #B0BEC5;
+      --success:   #22C55E;
+      --error:     #EF4444;
+      --radius:    16px;
     }
 
-    /* ── Header ── */
-    .header {
-      background: var(--ink);
-      color: var(--paper);
-      padding: 28px 20px 22px;
+    html, body {
+      height: 100%;
+      background: var(--navy);
+      color: var(--white);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0);
+      overflow-x: hidden;
+    }
+
+    /* ── HERO CARD ── */
+    .hero {
+      width: 100%;
+      background: linear-gradient(160deg, #162030 0%, #0E1A2B 100%);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      padding: 40px 24px 32px;
+      text-align: center;
       position: relative;
       overflow: hidden;
     }
-    .header::after {
-      content: "";
+    .hero::before {
+      content: '';
       position: absolute;
-      left: 0; right: 0; bottom: 0; height: 3px;
-      background: linear-gradient(90deg, transparent, var(--brass) 20%, var(--brass) 80%, transparent);
+      top: -60px; right: -60px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
     }
-    .eyebrow {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--brass);
-      margin-bottom: 6px;
+
+    .avatar {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 34px;
+      margin: 0 auto 16px;
+      box-shadow: 0 0 0 4px rgba(201,168,76,0.2), 0 8px 32px rgba(0,0,0,0.4);
     }
-    .header h1 {
-      font-family: var(--serif);
-      font-size: 26px;
-      font-weight: 600;
+
+    .hero-name {
+      font-size: 26px; font-weight: 700;
+      letter-spacing: -0.5px;
       margin-bottom: 4px;
     }
-    .header p {
-      font-size: 13px;
-      color: #B9C2CF;
-    }
-    .stamp {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: #8FA0B5;
-      margin-top: 14px;
-      display: flex;
-      justify-content: space-between;
-      border-top: 1px solid #2A3B52;
-      padding-top: 10px;
-    }
-    .stamp b { color: var(--brass); font-weight: 500; }
 
-    /* ── Main content ── */
-    .content { padding: 24px 20px; }
-
-    /* ── One-tap section ── */
-    .one-tap-section {
-      background: var(--paper-raised);
-      border: 1.5px solid var(--line);
-      border-radius: 10px;
-      padding: 28px 20px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .one-tap-icon {
-      width: 64px;
-      height: 64px;
-      background: var(--ink);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
-    }
-    .one-tap-icon svg { width: 32px; height: 32px; color: var(--brass); }
-    .one-tap-section h2 {
-      font-family: var(--serif);
-      font-size: 20px;
-      color: var(--ink);
-      margin-bottom: 8px;
-    }
-    .one-tap-section p {
-      font-size: 13px;
-      color: var(--ink-soft);
-      line-height: 1.6;
-      margin-bottom: 20px;
+    .hero-title {
+      font-size: 13px; font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
     }
 
-    /* ── Buttons ── */
-    .btn-primary {
-      display: block;
+    .hero-tagline {
+      font-size: 14px;
+      color: var(--gray-lt);
+      line-height: 1.5;
+    }
+
+    /* ── SAVE CONTACT BUTTON (big CTA) ── */
+    .save-contact-wrap {
       width: 100%;
-      padding: 17px 20px;
-      background: var(--ink);
-      color: var(--paper);
+      padding: 24px 20px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-save {
+      width: 100%;
+      max-width: 400px;
+      padding: 18px 20px;
+      border-radius: var(--radius);
       border: none;
-      border-radius: 8px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+      color: var(--navy);
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      box-shadow: 0 6px 24px rgba(201,168,76,0.4);
+      transition: transform 0.12s, box-shadow 0.12s;
+      letter-spacing: 0.2px;
+    }
+    .btn-save:active { transform: scale(0.97); box-shadow: 0 3px 12px rgba(201,168,76,0.25); }
+
+    .btn-save-icon { font-size: 20px; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      display: flex; align-items: center; gap: 10px;
+      width: 100%; max-width: 400px;
+      font-size: 12px; color: var(--gray);
+      letter-spacing: 0.8px; text-transform: uppercase;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    /* ── SHARE SECTION ── */
+    .share-section {
+      width: 100%;
+      padding: 0 20px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .share-label {
+      font-size: 13px;
+      color: var(--gray);
+      text-align: center;
+      max-width: 400px;
+      line-height: 1.5;
+      margin-bottom: 4px;
+    }
+    .share-label strong { color: var(--white); }
+
+    /* ── SMART FORM ── */
+    .smart-form {
+      width: 100%; max-width: 400px;
+      background: var(--navy-soft);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .form-row {
+      display: flex; align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0 16px;
+      gap: 12px;
+    }
+    .form-row:last-child { border-bottom: none; }
+
+    .form-icon { font-size: 18px; min-width: 24px; }
+
+    .form-row input {
+      flex: 1;
+      padding: 15px 0;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--white);
+      font-size: 16px;
+      font-family: inherit;
+    }
+    .form-row input::placeholder { color: rgba(255,255,255,0.3); }
+
+    /* ── SUBMIT BUTTON ── */
+    .btn-submit {
+      width: 100%; max-width: 400px;
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      border: none;
+      background: rgba(201,168,76,0.12);
+      border: 1.5px solid rgba(201,168,76,0.35);
+      color: var(--gold-lt);
       font-size: 16px;
       font-weight: 700;
       cursor: pointer;
-      letter-spacing: 0.01em;
-      transition: background 0.15s;
-      margin-bottom: 10px;
-    }
-    .btn-primary:active { background: var(--ink-soft); }
-    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
-    .btn-secondary {
-      display: block;
-      width: 100%;
-      padding: 13px 20px;
-      background: transparent;
-      color: var(--ink-soft);
-      border: 1.5px solid var(--line);
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
       transition: background 0.15s;
     }
-    .btn-secondary:active { background: var(--line); }
+    .btn-submit:active { background: rgba(201,168,76,0.2); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* ── Divider ── */
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 20px 0;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: #A7A090;
-      letter-spacing: 0.1em;
-    }
-    .divider::before, .divider::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: var(--line);
-    }
-
-    /* ── Manual form ── */
-    #manualForm { display: none; }
-    .field { margin-bottom: 16px; }
-    .field label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      color: var(--ink-soft);
-      margin-bottom: 6px;
-    }
-    .field label .req { color: var(--brass-deep); }
-    .field label .opt { color: #A7A090; font-weight: 400; font-style: italic; }
-    input[type=text], input[type=email], input[type=tel], input[type=url] {
-      width: 100%;
-      padding: 13px 14px;
+    /* ── ANDROID CONTACT PICKER BUTTON ── */
+    .btn-picker {
+      width: 100%; max-width: 400px;
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      border: 1.5px solid rgba(201,168,76,0.35);
+      background: rgba(201,168,76,0.08);
+      color: var(--gold-lt);
       font-size: 16px;
-      font-family: var(--sans);
-      border: 1.5px solid var(--line);
-      border-radius: 6px;
-      background: var(--paper-raised);
-      color: var(--ink);
-      outline: none;
-      transition: border-color 0.15s;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: background 0.15s;
     }
-    input:focus { border-color: var(--brass); }
-    input.err { border-color: var(--error); }
-    .err-msg {
-      font-size: 11.5px;
-      color: var(--error);
-      margin-top: 5px;
-      font-family: var(--mono);
-      display: none;
-    }
-    .err-msg.show { display: block; }
+    .btn-picker:active { background: rgba(201,168,76,0.18); }
 
-    /* ── Location indicator ── */
-    .location-box {
-      background: var(--paper-raised);
-      border: 1.5px solid var(--line);
-      border-radius: 6px;
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: var(--mono);
-      font-size: 11.5px;
-      color: var(--ink-soft);
-      margin-bottom: 18px;
-    }
-    .loc-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #D9A441;
-      flex-shrink: 0;
-      animation: pulse 1.4s infinite ease-in-out;
-    }
-    .loc-dot.ok { background: var(--success); animation: none; }
-    .loc-dot.fail { background: var(--error); animation: none; }
-    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
-
-    /* ── Status messages ── */
-    #statusMessage {
-      display: none;
-      padding: 16px;
-      border-radius: 8px;
-      font-size: 14px;
+    /* ── STATUS ── */
+    .status-bar {
+      width: 100%; max-width: 400px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 13px;
       font-weight: 600;
       text-align: center;
-      margin-bottom: 16px;
-    }
-    .msg-success {
-      background: var(--success-bg);
-      color: #166534;
-      border: 1px solid #bbf7d0;
-    }
-    .msg-error {
-      background: #fef2f2;
-      color: #991b1b;
-      border: 1px solid #fecaca;
-    }
-
-    /* ── Success screen ── */
-    #successScreen {
       display: none;
-      text-align: center;
-      padding: 40px 20px;
     }
-    .success-icon {
-      width: 72px; height: 72px;
-      background: var(--success-bg);
-      border-radius: 50%;
-      display: flex;
+    .status-bar.show { display: block; }
+    .status-bar.success { background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.25); }
+    .status-bar.error   { background: rgba(239,68,68,0.12);  color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
+
+    /* ── SUCCESS SCREEN ── */
+    #screen-success {
+      display: none;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 20px;
+      min-height: 100vh;
+      padding: 40px 24px;
+      text-align: center;
     }
-    .success-icon svg { width: 36px; height: 36px; color: var(--success); }
-    #successScreen h2 {
-      font-family: var(--serif);
-      font-size: 24px;
-      color: var(--ink);
-      margin-bottom: 10px;
+    #screen-success.show { display: flex; }
+
+    .success-check {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #16a34a, #22c55e);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 48px;
+      margin-bottom: 28px;
+      box-shadow: 0 0 50px rgba(34,197,94,0.5);
+      animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    #successScreen p {
-      font-size: 14px;
-      color: var(--ink-soft);
-      line-height: 1.6;
+    @keyframes pop {
+      from { transform: scale(0.5); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
     }
 
-    /* ── Loading spinner ── */
-    .spinner {
+    .success-title { font-size: 30px; font-weight: 800; margin-bottom: 10px; }
+    .success-sub   { font-size: 16px; color: var(--gray-lt); line-height: 1.6; margin-bottom: 28px; }
+
+    .recap-card {
+      width: 100%; max-width: 380px;
+      background: var(--navy-soft);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: var(--radius);
+      padding: 4px 0;
+    }
+    .recap-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .recap-row:last-child { border-bottom: none; }
+    .recap-icon { font-size: 18px; min-width: 24px; }
+    .recap-text { font-size: 14px; font-weight: 500; word-break: break-all; }
+
+    /* ── SPINNER ── */
+    .spin {
       display: inline-block;
       width: 18px; height: 18px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: #fff;
+      border: 2px solid rgba(255,255,255,0.25);
+      border-top-color: currentColor;
       border-radius: 50%;
-      animation: spin 0.7s linear infinite;
+      animation: rotate 0.7s linear infinite;
       vertical-align: middle;
-      margin-right: 8px;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes rotate { to { transform: rotate(360deg); } }
 
-    /* ── Footer ── */
-    .footer {
-      text-align: center;
-      padding: 20px;
-      font-family: var(--mono);
-      font-size: 10px;
-      color: #A7A090;
-      letter-spacing: 0.05em;
+    /* ── MAIN SCREEN ── */
+    #screen-main { width: 100%; }
+    #screen-main.hide { display: none; }
+
+    /* ── LOCATION PILL ── */
+    .loc-pill {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: var(--gray);
+      padding: 6px 12px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 20px;
+      max-width: 400px;
+      width: fit-content;
+      margin: 0 auto;
     }
+    .loc-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: blink 1.4s infinite;
+    }
+    .loc-dot.ok   { background: var(--success); animation: none; }
+    .loc-dot.fail { background: var(--gray);    animation: none; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .info-note {
+      font-size: 12px;
+      color: var(--gray);
+      text-align: center;
+      max-width: 320px;
+      line-height: 1.5;
+      padding: 0 20px;
+    }
+
+    /* ── HIDDEN ── */
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
-<!-- Header -->
-<div class="header">
-  <p class="eyebrow">The Founders Arena · Networking</p>
-  <h1>Nice to meet you!</h1>
-  <p>Garrick would love to stay in touch.</p>
-  <div class="stamp">
-    <span>LOGGED <b id="stampDate">—</b></span>
-    <span id="stampTime">—</span>
-  </div>
-</div>
+<!-- ════════════════════════════════════════════
+     MAIN SCREEN
+════════════════════════════════════════════ -->
+<div id="screen-main">
 
-<!-- Main Content -->
-<div class="content" id="mainContent">
-
-  <!-- Status message -->
-  <div id="statusMessage"></div>
-
-  <!-- One-tap section -->
-  <div class="one-tap-section" id="oneTapSection">
-    <div class="one-tap-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-        <circle cx="9" cy="7" r="4"/>
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-      </svg>
-    </div>
-    <h2>Share your contact</h2>
-    <p>Tap the button below and select <strong>your own contact card</strong> from your phone. That's it — takes 3 seconds.</p>
-
-    <!-- Location status -->
-    <div class="location-box" id="locationBox">
-      <div class="loc-dot" id="locDot"></div>
-      <span id="locText">Getting your location…</span>
-    </div>
-
-    <button class="btn-primary" id="shareContactBtn" onclick="shareContact()">
-      📇 &nbsp;Share My Contact Card
-    </button>
-
-    <div class="divider">or enter manually</div>
-
-    <button class="btn-secondary" onclick="showManualForm()">
-      Fill out a quick form instead
-    </button>
+  <!-- Hero -->
+  <div class="hero">
+    <div class="avatar">🤝</div>
+    <div class="hero-name">Garrick Ortiz</div>
+    <div class="hero-title">Founders Arena</div>
+    <p class="hero-tagline">Great connecting with you!<br>Let's stay in touch.</p>
   </div>
 
-  <!-- Manual fallback form -->
-  <div id="manualForm">
-    <div class="field">
-      <label>Full name <span class="req">required</span></label>
-      <input type="text" id="fullName" autocomplete="name" placeholder="Jordan Ellis">
-      <div class="err-msg" id="err-fullName">Enter your full name to continue.</div>
-    </div>
-    <div class="field">
-      <label>Email <span class="req">required</span></label>
-      <input type="email" id="email" autocomplete="email" placeholder="jordan@company.com">
-      <div class="err-msg" id="err-email">Enter a valid email address.</div>
-    </div>
-    <div class="field">
-      <label>Phone <span class="opt">optional</span></label>
-      <input type="tel" id="phone" autocomplete="tel" placeholder="(214) 555-0148">
-    </div>
-    <div class="field">
-      <label>Company <span class="opt">optional</span></label>
-      <input type="text" id="company" placeholder="Company or organization">
-    </div>
-    <div class="field">
-      <label>Job title <span class="opt">optional</span></label>
-      <input type="text" id="jobTitle" placeholder="Role or title">
-    </div>
-    <div class="field">
-      <label>LinkedIn <span class="opt">optional</span></label>
-      <input type="url" id="linkedin" placeholder="linkedin.com/in/yourname">
+  <!-- Save MY contact (Garrick's vCard) -->
+  <div class="save-contact-wrap">
+    <button class="btn-save" onclick="downloadMyVCard()">
+      <span class="btn-save-icon">💾</span>
+      Save Garrick's Contact
+    </button>
+
+    <div class="divider">then share yours</div>
+  </div>
+
+  <!-- Share YOUR contact section -->
+  <div class="share-section">
+    <p class="share-label">
+      <strong>Share your info</strong> so Garrick can follow up with you.
+    </p>
+
+    <!-- Android: Contact Picker API button (hidden on iOS) -->
+    <button class="btn-picker hidden" id="btn-picker" onclick="openContactPicker()">
+      📇 &nbsp;Share from My Contacts
+    </button>
+
+    <!-- Smart quick-entry form -->
+    <div class="smart-form" id="smart-form">
+      <div class="form-row">
+        <span class="form-icon">👤</span>
+        <input type="text" id="f-name" placeholder="Your full name" autocomplete="name" autocorrect="off" />
+      </div>
+      <div class="form-row">
+        <span class="form-icon">📱</span>
+        <input type="tel" id="f-phone" placeholder="Phone number" autocomplete="tel" />
+      </div>
+      <div class="form-row">
+        <span class="form-icon">✉️</span>
+        <input type="email" id="f-email" placeholder="Email address" autocomplete="email" autocorrect="off" autocapitalize="none" />
+      </div>
+      <div class="form-row">
+        <span class="form-icon">🏢</span>
+        <input type="text" id="f-company" placeholder="Company (optional)" autocomplete="organization" />
+      </div>
     </div>
 
-    <div class="location-box" id="locationBoxManual">
-      <div class="loc-dot" id="locDotManual"></div>
-      <span id="locTextManual">Getting your location…</span>
+    <div class="status-bar" id="status-bar"></div>
+
+    <button class="btn-submit" id="btn-submit" onclick="submitForm()">
+      🚀 &nbsp;Send My Info to Garrick
+    </button>
+
+    <!-- Location pill -->
+    <div class="loc-pill">
+      <div class="loc-dot" id="loc-dot"></div>
+      <span id="loc-text">Getting location…</span>
     </div>
 
-    <button class="btn-primary" id="submitBtn" onclick="submitManualForm()">
-      Send My Info to Garrick
-    </button>
-    <button class="btn-secondary" style="margin-top:10px;" onclick="showOneTap()">
-      ← Back
-    </button>
+    <p class="info-note">Your info goes directly to Garrick's private contacts list. Nothing is stored on this page.</p>
   </div>
 
 </div>
 
-<!-- Success Screen -->
-<div id="successScreen">
-  <div class="success-icon">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <polyline points="20 6 9 17 4 12"/>
-    </svg>
-  </div>
-  <h2>You're in the book!</h2>
-  <p>Garrick has your info and will be in touch.<br>Great connecting with you!</p>
+<!-- ════════════════════════════════════════════
+     SUCCESS SCREEN
+════════════════════════════════════════════ -->
+<div id="screen-success">
+  <div class="success-check">✓</div>
+  <div class="success-title">You're In! 🎉</div>
+  <p class="success-sub">Garrick has your info.<br>Expect a follow-up soon!</p>
+  <div class="recap-card" id="recap-card"></div>
 </div>
-
-<div class="footer">FOUNDERS ARENA · NETWORKING SYSTEM · <span id="footerYear"></span></div>
 
 <script>
-  // ── Config ──────────────────────────────────────────────────────────────
-  // ── Backend URL (Google Apps Script Web App — Version 5) ──
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbzhiXNTb91IkyRermo-LfAQbitQnRcEc20PDmyr4h0wQMCzZVMmELtRkhFOanR1A76J/exec';
+// ─────────────────────────────────────────────────────────────────────────────
+// CONFIG
+// ─────────────────────────────────────────────────────────────────────────────
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzhiXNTb91IkyRermo-LfAQbitQnRcEc20PDmyr4h0wQMCzZVMmELtRkhFOanR1A76J/exec';
 
-  // ── State ────────────────────────────────────────────────────────────────
-  let capturedLat = null;
-  let capturedLng = null;
-  let locationReady = false;
+// Garrick's vCard data
+const GARRICK_VCARD = `BEGIN:VCARD
+VERSION:3.0
+FN:Garrick Ortiz
+N:Ortiz;Garrick;;;
+ORG:Founders Arena
+TITLE:Founder
+URL:https://bluezfox.github.io/networking-card/
+NOTE:Met at networking event
+END:VCARD`;
 
-  // ── Init ─────────────────────────────────────────────────────────────────
-  document.addEventListener('DOMContentLoaded', () => {
-    // Stamp date/time
-    const now = new Date();
-    document.getElementById('stampDate').textContent = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    document.getElementById('stampTime').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-    document.getElementById('footerYear').textContent = now.getFullYear();
+// ─────────────────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────────────────
+let geoLat = null, geoLng = null;
 
-    // Start geolocation immediately
-    requestLocation();
+// ─────────────────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────────────────
+(function init() {
+  // Start geolocation silently
+  startGeo();
 
-    // Check if Contact Picker API is supported
-    if (!('contacts' in navigator) || !('ContactsManager' in window)) {
-      // Hide the one-tap button, show manual form directly
-      document.getElementById('shareContactBtn').style.display = 'none';
-      document.querySelector('.divider').style.display = 'none';
-      // Show a note
-      const note = document.createElement('p');
-      note.style.cssText = 'font-size:12px;color:#A7A090;margin-top:8px;font-style:italic;';
-      note.textContent = 'Tap-to-share is not supported on this browser. Please use the form below.';
-      document.getElementById('oneTapSection').appendChild(note);
+  // Show Android Contact Picker button if supported
+  if ('contacts' in navigator && 'ContactsManager' in window) {
+    document.getElementById('btn-picker').classList.remove('hidden');
+  }
+
+  // Auto-focus name field after a short delay (feels snappy)
+  setTimeout(() => {
+    const nameField = document.getElementById('f-name');
+    if (nameField && !nameField.value) {
+      // Don't auto-focus on iOS — it causes keyboard to pop up immediately
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      if (!isIOS) nameField.focus();
     }
-  });
+  }, 600);
+})();
 
-  // ── Geolocation ──────────────────────────────────────────────────────────
-  function requestLocation() {
-    updateLocUI('locDot', 'locText', 'pending', 'Getting your location…');
-    updateLocUI('locDotManual', 'locTextManual', 'pending', 'Getting your location…');
+// ─────────────────────────────────────────────────────────────────────────────
+// DOWNLOAD GARRICK'S VCARD
+// ─────────────────────────────────────────────────────────────────────────────
+function downloadMyVCard() {
+  const blob = new Blob([GARRICK_VCARD], { type: 'text/vcard;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'Garrick-Ortiz.vcf';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
 
-    if (!navigator.geolocation) {
-      updateLocUI('locDot', 'locText', 'fail', 'Location not available on this device.');
-      updateLocUI('locDotManual', 'locTextManual', 'fail', 'Location not available.');
+// ─────────────────────────────────────────────────────────────────────────────
+// ANDROID CONTACT PICKER API
+// ─────────────────────────────────────────────────────────────────────────────
+async function openContactPicker() {
+  const btn = document.getElementById('btn-picker');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span> Opening contacts…';
+
+  try {
+    // Get supported properties
+    let props = ['name', 'tel', 'email'];
+    try {
+      const supported = await navigator.contacts.getProperties();
+      props = ['name', 'tel', 'email'].filter(p => supported.includes(p));
+      if (supported.includes('icon'))    props.push('icon');
+      if (supported.includes('address')) props.push('address');
+    } catch(e) {}
+
+    const results = await navigator.contacts.select(props, { multiple: false });
+
+    if (!results || results.length === 0) {
+      btn.disabled = false;
+      btn.innerHTML = '📇 &nbsp;Share from My Contacts';
       return;
     }
 
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        capturedLat = pos.coords.latitude.toFixed(6);
-        capturedLng = pos.coords.longitude.toFixed(6);
-        locationReady = true;
-        const txt = `Location captured (±${Math.round(pos.coords.accuracy)}m)`;
-        updateLocUI('locDot', 'locText', 'ok', txt);
-        updateLocUI('locDotManual', 'locTextManual', 'ok', txt);
-      },
-      (err) => {
-        updateLocUI('locDot', 'locText', 'fail', 'Location not shared — that\'s OK.');
-        updateLocUI('locDotManual', 'locTextManual', 'fail', 'Location not shared — that\'s OK.');
-      },
-      { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
-    );
-  }
+    const c     = results[0];
+    const name  = (c.name  && c.name[0])  || '';
+    const phone = (c.tel   && c.tel[0])   || '';
+    const email = (c.email && c.email[0]) || '';
 
-  function updateLocUI(dotId, textId, state, msg) {
-    const dot = document.getElementById(dotId);
-    const txt = document.getElementById(textId);
-    if (!dot || !txt) return;
-    dot.className = 'loc-dot' + (state === 'ok' ? ' ok' : state === 'fail' ? ' fail' : '');
-    txt.textContent = msg;
-  }
+    // Pre-fill the form with picked data
+    if (name)  document.getElementById('f-name').value  = name;
+    if (phone) document.getElementById('f-phone').value = phone;
+    if (email) document.getElementById('f-email').value = email;
 
-  // ── Contact Picker API ───────────────────────────────────────────────────
-  async function shareContact() {
-    const btn = document.getElementById('shareContactBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span> Opening contacts…';
-
-    try {
-      const props = ['name', 'tel', 'email'];
-      // Try to also get address and icon (photo) if supported
-      let supported = ['name', 'tel', 'email'];
-      try {
-        if (typeof navigator.contacts.getProperties === 'function') {
-          supported = await navigator.contacts.getProperties();
-        }
-      } catch(e) { /* getProperties not supported on all browsers */ }
-      const requestProps = props.filter(p => supported.includes(p));
-      if (supported.includes('icon')) requestProps.push('icon');
-      if (supported.includes('address')) requestProps.push('address');
-
-      const contacts = await navigator.contacts.select(requestProps, { multiple: false });
-
-      if (!contacts || contacts.length === 0) {
-        btn.disabled = false;
-        btn.innerHTML = '📇 &nbsp;Share My Contact Card';
-        showStatus('No contact selected. Please try again.', 'error');
-        return;
-      }
-
-      const contact = contacts[0];
-      const name = (contact.name && contact.name[0]) ? contact.name[0] : '';
-      const phone = (contact.tel && contact.tel[0]) ? contact.tel[0] : '';
-      const email = (contact.email && contact.email[0]) ? contact.email[0] : '';
-
-      // Guess LinkedIn from name
-      const linkedInGuess = name ? guessLinkedIn(name) : '';
-
-      // Handle photo (icon is a Blob)
-      let photoBase64 = '';
-      if (contact.icon && contact.icon.length > 0) {
-        try {
-          photoBase64 = await blobToBase64(contact.icon[0]);
-        } catch(e) { /* ignore photo errors */ }
-      }
-
-      btn.innerHTML = '<span class="spinner"></span> Saving your info…';
-
-      await sendToGAS({
-        action: 'captureInfo',
-        name: name,
-        email: email,
-        phoneNumber: phone,
-        phone: phone,
-        company: '',
-        jobTitle: '',
-        linkedInUrl: linkedInGuess,
-        photo: photoBase64,
-        latitude: capturedLat,
-        longitude: capturedLng,
-        source: 'Contact Picker API',
-        notes: 'Via Contact Picker API'
-      });
-
-      showSuccessScreen();
-
-    } catch (err) {
-      console.error('Contact picker error:', err);
-      btn.disabled = false;
-      btn.innerHTML = '📇 &nbsp;Share My Contact Card';
-      if (err.name === 'SecurityError' || err.name === 'NotAllowedError') {
-        showStatus('Permission denied. Please use the form below.', 'error');
-      } else {
-        showStatus('Something went wrong. Please use the form below.', 'error');
-      }
+    // Handle photo
+    let photoBase64 = '';
+    if (c.icon && c.icon.length > 0) {
+      try { photoBase64 = await blobToBase64(c.icon[0]); } catch(e) {}
     }
-  }
 
-  // ── Manual Form ──────────────────────────────────────────────────────────
-  function showManualForm() {
-    document.getElementById('oneTapSection').style.display = 'none';
-    document.getElementById('manualForm').style.display = 'block';
-  }
-
-  function showOneTap() {
-    document.getElementById('manualForm').style.display = 'none';
-    document.getElementById('oneTapSection').style.display = 'block';
-  }
-
-  async function submitManualForm() {
-    const name = document.getElementById('fullName').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const company = document.getElementById('company').value.trim();
-    const jobTitle = document.getElementById('jobTitle').value.trim();
-    const linkedin = document.getElementById('linkedin').value.trim();
-
-    // Validation
-    let valid = true;
-    if (!name) {
-      document.getElementById('err-fullName').classList.add('show');
-      document.getElementById('fullName').classList.add('err');
-      valid = false;
-    } else {
-      document.getElementById('err-fullName').classList.remove('show');
-      document.getElementById('fullName').classList.remove('err');
-    }
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      document.getElementById('err-email').classList.add('show');
-      document.getElementById('email').classList.add('err');
-      valid = false;
-    } else {
-      document.getElementById('err-email').classList.remove('show');
-      document.getElementById('email').classList.remove('err');
-    }
-    if (!valid) return;
-
-    const btn = document.getElementById('submitBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span> Sending…';
-
-    // Guess LinkedIn if not provided
-    const linkedInUrl = linkedin || (name ? guessLinkedIn(name) : '');
+    btn.innerHTML = '<span class="spin"></span> Saving…';
 
     await sendToGAS({
       action: 'captureInfo',
-      name: name,
-      email: email,
+      name, phone, email,
       phoneNumber: phone,
-      phone: phone,
-      company: company,
-      jobTitle: jobTitle,
-      linkedInUrl: linkedInUrl,
-      photo: '',
-      latitude: capturedLat,
-      longitude: capturedLng,
-      source: 'Manual Form',
-      notes: 'Via manual form'
+      photo: photoBase64,
+      latitude:  geoLat,
+      longitude: geoLng,
+      source: 'Contact Picker API (Android)',
+      notes: 'Shared via Android Contact Picker'
     });
 
-    showSuccessScreen();
+    showSuccess({ name, phone, email });
+
+  } catch(err) {
+    console.error('Contact picker error:', err);
+    btn.disabled = false;
+    btn.innerHTML = '📇 &nbsp;Share from My Contacts';
+    showStatus('Could not open contacts. Please use the form below.', 'error');
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MANUAL FORM SUBMIT
+// ─────────────────────────────────────────────────────────────────────────────
+async function submitForm() {
+  const name    = document.getElementById('f-name').value.trim();
+  const phone   = document.getElementById('f-phone').value.trim();
+  const email   = document.getElementById('f-email').value.trim();
+  const company = document.getElementById('f-company').value.trim();
+
+  if (!name) {
+    document.getElementById('f-name').focus();
+    showStatus('Please enter your name to continue.', 'error');
+    return;
+  }
+  if (!phone && !email) {
+    showStatus('Please enter a phone number or email.', 'error');
+    return;
   }
 
-  // ── Send to Google Apps Script ───────────────────────────────────────────
-  async function sendToGAS(payload) {
-    try {
-      // Use no-cors to avoid CORS preflight errors with GAS
-      await fetch(GAS_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      // no-cors returns opaque response — we assume success
-    } catch (err) {
-      console.error('Network error:', err);
-      // Still show success — data may have gone through
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span> Sending…';
+
+  await sendToGAS({
+    action: 'captureInfo',
+    name, phone, email,
+    phoneNumber: phone,
+    company,
+    linkedInUrl: guessLinkedIn(name),
+    latitude:  geoLat,
+    longitude: geoLng,
+    source: 'Manual Form',
+    notes: 'Submitted via quick form'
+  });
+
+  showSuccess({ name, phone, email, company });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SEND TO GOOGLE APPS SCRIPT
+// ─────────────────────────────────────────────────────────────────────────────
+async function sendToGAS(payload) {
+  try {
+    await fetch(GAS_URL, {
+      method:  'POST',
+      mode:    'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(payload)
+    });
+  } catch(err) {
+    console.error('Send error:', err);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SUCCESS SCREEN
+// ─────────────────────────────────────────────────────────────────────────────
+function showSuccess(data) {
+  document.getElementById('screen-main').classList.add('hide');
+
+  const rows = [];
+  if (data.name)    rows.push({ icon: '👤', text: data.name });
+  if (data.phone)   rows.push({ icon: '📱', text: data.phone });
+  if (data.email)   rows.push({ icon: '✉️',  text: data.email });
+  if (data.company) rows.push({ icon: '🏢', text: data.company });
+  if (geoLat)       rows.push({ icon: '📍', text: `${geoLat}, ${geoLng}` });
+
+  const card = document.getElementById('recap-card');
+  card.innerHTML = rows.map(r => `
+    <div class="recap-row">
+      <span class="recap-icon">${r.icon}</span>
+      <span class="recap-text">${r.text}</span>
+    </div>
+  `).join('');
+
+  const ss = document.getElementById('screen-success');
+  ss.classList.add('show');
+  window.scrollTo(0, 0);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STATUS BAR
+// ─────────────────────────────────────────────────────────────────────────────
+function showStatus(msg, type) {
+  const bar = document.getElementById('status-bar');
+  bar.textContent = msg;
+  bar.className = `status-bar show ${type}`;
+  setTimeout(() => bar.classList.remove('show'), 5000);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GEOLOCATION
+// ─────────────────────────────────────────────────────────────────────────────
+function startGeo() {
+  const dot  = document.getElementById('loc-dot');
+  const text = document.getElementById('loc-text');
+  if (!navigator.geolocation) {
+    dot.className  = 'loc-dot fail';
+    text.textContent = 'Location unavailable';
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      geoLat = pos.coords.latitude.toFixed(6);
+      geoLng = pos.coords.longitude.toFixed(6);
+      dot.className    = 'loc-dot ok';
+      text.textContent = `Location ready (±${Math.round(pos.coords.accuracy)}m)`;
+    },
+    () => {
+      dot.className    = 'loc-dot fail';
+      text.textContent = 'Location not shared — that\'s OK';
+    },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// UTILITIES
+// ─────────────────────────────────────────────────────────────────────────────
+function guessLinkedIn(name) {
+  if (!name) return '';
+  const slug = name.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim().replace(/\s+/g,'-');
+  return 'https://www.linkedin.com/in/' + slug;
+}
+
+function blobToBase64(blob) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload  = () => res(r.result);
+    r.onerror = rej;
+    r.readAsDataURL(blob);
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ENTER KEY SUPPORT
+// ─────────────────────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const active = document.activeElement;
+    if (active && active.closest('#smart-form')) {
+      const inputs = Array.from(document.querySelectorAll('#smart-form input'));
+      const idx = inputs.indexOf(active);
+      if (idx < inputs.length - 1) {
+        inputs[idx + 1].focus();
+      } else {
+        submitForm();
+      }
     }
   }
-
-  // ── Helpers ──────────────────────────────────────────────────────────────
-  function guessLinkedIn(name) {
-    // Generate a likely LinkedIn URL from the person's name
-    const slug = name.toLowerCase()
-      .replace(/[^a-z0-9\s]/g, '')
-      .trim()
-      .replace(/\s+/g, '-');
-    return 'https://www.linkedin.com/in/' + slug;
-  }
-
-  function blobToBase64(blob) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
-  }
-
-  function showStatus(msg, type) {
-    const el = document.getElementById('statusMessage');
-    el.textContent = msg;
-    el.className = type === 'error' ? 'msg-error' : 'msg-success';
-    el.style.display = 'block';
-    setTimeout(() => { el.style.display = 'none'; }, 5000);
-  }
-
-  function showSuccessScreen() {
-    document.getElementById('mainContent').style.display = 'none';
-    document.getElementById('successScreen').style.display = 'block';
-  }
+});
 </script>
 </body>
 </html>
